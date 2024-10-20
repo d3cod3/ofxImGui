@@ -16,21 +16,21 @@ namespace ofxImGui
 
 		ImGuiIO& io = ImGui::GetIO();
 
-		io.KeyMap[ImGuiKey_Tab] = OF_KEY_TAB;
-		io.KeyMap[ImGuiKey_LeftArrow] = OF_KEY_LEFT;
-		io.KeyMap[ImGuiKey_RightArrow] = OF_KEY_RIGHT;
-		io.KeyMap[ImGuiKey_UpArrow] = OF_KEY_UP;
-		io.KeyMap[ImGuiKey_DownArrow] = OF_KEY_DOWN;
-		io.KeyMap[ImGuiKey_PageUp] = OF_KEY_PAGE_UP;
-		io.KeyMap[ImGuiKey_PageDown] = OF_KEY_PAGE_DOWN;
-		io.KeyMap[ImGuiKey_Home] = OF_KEY_HOME;
-		io.KeyMap[ImGuiKey_End] = OF_KEY_END;
-		io.KeyMap[ImGuiKey_Delete] = OF_KEY_DEL;
-		io.KeyMap[ImGuiKey_Backspace] = OF_KEY_BACKSPACE;
-		io.KeyMap[ImGuiKey_Enter] = OF_KEY_RETURN;
-		io.KeyMap[ImGuiKey_Escape] = OF_KEY_ESC;
+//		io.KeyMap[ImGuiKey_Tab] = OF_KEY_TAB;
+//		io.KeyMap[ImGuiKey_LeftArrow] = OF_KEY_LEFT;
+//		io.KeyMap[ImGuiKey_RightArrow] = OF_KEY_RIGHT;
+//		io.KeyMap[ImGuiKey_UpArrow] = OF_KEY_UP;
+//		io.KeyMap[ImGuiKey_DownArrow] = OF_KEY_DOWN;
+//		io.KeyMap[ImGuiKey_PageUp] = OF_KEY_PAGE_UP;
+//		io.KeyMap[ImGuiKey_PageDown] = OF_KEY_PAGE_DOWN;
+//		io.KeyMap[ImGuiKey_Home] = OF_KEY_HOME;
+//		io.KeyMap[ImGuiKey_End] = OF_KEY_END;
+//		io.KeyMap[ImGuiKey_Delete] = OF_KEY_DEL;
+//		io.KeyMap[ImGuiKey_Backspace] = OF_KEY_BACKSPACE;
+//		io.KeyMap[ImGuiKey_Enter] = OF_KEY_RETURN;
+//		io.KeyMap[ImGuiKey_Escape] = OF_KEY_ESC;
 
-        //if (autoDraw)
+		if (autoDraw)
 		{
 			io.RenderDrawListsFn = rendererDrawData;
 		}

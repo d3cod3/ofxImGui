@@ -61,24 +61,20 @@
 
 //---- Define constructor and implicit cast operators to convert back<>forth between your math types and ImVec2/ImVec4.
 // This will be inlined as part of ImVec2 and ImVec4 class declarations.
-// Note: ofVec3 can cast to ImVec2 by ignoring z axis too.
 #include "ofVectorMath.h"
 #include "ofColor.h"
+#include "ofConstants.h"
 
 #if OF_VERSION_MINOR >= 10
 #define IM_VEC2_CLASS_EXTRA                            \
 ImVec2(const ofVec2f& f) { x = f.x; y = f.y; }        \
 operator ofVec2f() const { return ofVec2f(x, y); }    \
 ImVec2(const glm::vec2& f) { x = f.x; y = f.y; }    \
-operator glm::vec2() const { return glm::vec2(x, y); } \
- \
-ImVec2(const ofVec3f& f) { x = f.x; y = f.y; }        \
-ImVec2(const glm::vec3& f) { x = f.x; y = f.y; }
+operator glm::vec2() const { return glm::vec2(x, y); }
 #else
 #define IM_VEC2_CLASS_EXTRA                            \
 ImVec2(const ofVec2f& f) { x = f.x; y = f.y; }        \
-operator ofVec2f() const { return ofVec2f(x, y); } \
-ImVec2(const ofVec3f& f) { x = f.x; y = f.y; }
+operator ofVec2f() const { return ofVec2f(x, y); }
 #endif
 
 #if OF_VERSION_MINOR >= 10
@@ -105,6 +101,7 @@ ImVec4(const ofFloatColor& f) { x = f.r; y = f.g; z = f.b; w = f.a; }           
 operator ofFloatColor() const { return ofFloatColor(x, y, z, w); }
 #endif
 
+#define IMGUI_DISABLE_OBSOLETE_FUNCTIONS
 #define ImDrawIdx ofIndexType
 
 //---- Use 32-bit vertex indices (default is 16-bit) is one way to allow large meshes with more than 64K vertices.

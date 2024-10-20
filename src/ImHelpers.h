@@ -6,7 +6,6 @@
 #include "ofTexture.h"
 #include "ofGLBaseTypes.h"
 #include "imgui.h"
-
 #include <stack>
 
 static const int kImGuiMargin = 10;
@@ -81,18 +80,19 @@ namespace ofxImGui
 
 	bool AddParameter(ofParameter<std::string>& parameter, size_t maxChars = 255, bool multiline = false);
 
-    bool AddParameter(ofParameter<void>& parameter, float width = 0);
+	bool AddParameter(ofParameter<void>& parameter, float width = 0);
 
 	template<typename ParameterType>
 	bool AddParameter(ofParameter<ParameterType>& parameter);
 
-    template<typename ParameterType>
-    bool AddText(ofParameter<ParameterType>& parameter, bool label = true);
+	template<typename ParameterType>
+	bool AddText(ofParameter<ParameterType>& parameter, bool label = true);
 
 	bool AddRadio(ofParameter<int>& parameter, std::vector<std::string> labels, int columns = 1);
 	bool AddCombo(ofParameter<int>& parameter, std::vector<std::string> labels);
 	bool AddStepper(ofParameter<int>& parameter, int step = 1, int stepFast = 100);
-    bool AddSlider(ofParameter<float>& parameter, const char* format = "%.3f", float power = 1.0f);
+
+	bool AddSlider(ofParameter<float>& parameter, const char* format = "%.3f", float power = 1.0f);
 
 	bool AddRange(const std::string& name, ofParameter<int>& parameterMin, ofParameter<int>& parameterMax, int speed = 1);
 	bool AddRange(const std::string& name, ofParameter<float>& parameterMin, ofParameter<float>& parameterMax, float speed = 0.01f);
@@ -103,25 +103,24 @@ namespace ofxImGui
 #endif
 
 #if OF_VERSION_MINOR >= 10
-    bool AddValues(const std::string& name, std::vector<glm::ivec2>& values, int minValue = 0, int maxValue = 0);
-    bool AddValues(const std::string& name, std::vector<glm::ivec3>& values, int minValue = 0, int maxValue = 0);
-    bool AddValues(const std::string& name, std::vector<glm::ivec4>& values, int minValue = 0, int maxValue = 0);
+	bool AddValues(const std::string& name, std::vector<glm::ivec2>& values, int minValue = 0, int maxValue = 0);
+	bool AddValues(const std::string& name, std::vector<glm::ivec3>& values, int minValue = 0, int maxValue = 0);
+	bool AddValues(const std::string& name, std::vector<glm::ivec4>& values, int minValue = 0, int maxValue = 0);
 
-    bool AddValues(const std::string& name, std::vector<glm::vec2>& values, float minValue = 0, float maxValue = 0);
-    bool AddValues(const std::string& name, std::vector<glm::vec3>& values, float minValue = 0, float maxValue = 0);
-    bool AddValues(const std::string& name, std::vector<glm::vec4>& values, float minValue = 0, float maxValue = 0);
+	bool AddValues(const std::string& name, std::vector<glm::vec2>& values, float minValue = 0, float maxValue = 0);
+	bool AddValues(const std::string& name, std::vector<glm::vec3>& values, float minValue = 0, float maxValue = 0);
+	bool AddValues(const std::string& name, std::vector<glm::vec4>& values, float minValue = 0, float maxValue = 0);
 #endif
 
-    bool AddValues(const std::string& name, std::vector<ofVec2f>& values, float minValue = 0, float maxValue = 0);
-    bool AddValues(const std::string& name, std::vector<ofVec3f>& values, float minValue = 0, float maxValue = 0);
-    bool AddValues(const std::string& name, std::vector<ofVec4f>& values, float minValue = 0, float maxValue = 0);
+	bool AddValues(const std::string& name, std::vector<ofVec2f>& values, float minValue = 0, float maxValue = 0);
+	bool AddValues(const std::string& name, std::vector<ofVec3f>& values, float minValue = 0, float maxValue = 0);
+	bool AddValues(const std::string& name, std::vector<ofVec4f>& values, float minValue = 0, float maxValue = 0);
 
 	template<typename DataType>
 	bool AddValues(const std::string& name, std::vector<DataType>& values, DataType minValue, DataType maxValue);
 
-    void AddImage(const ofBaseHasTexture& hasTexture, const ofVec2f& size);
-    void AddImage(const ofTexture& texture, const ofVec2f& size);
-
+	void AddImage(const ofBaseHasTexture& hasTexture, const ofVec2f& size);
+	void AddImage(const ofTexture& texture, const ofVec2f& size);
 #if OF_VERSION_MINOR >= 10
     void AddImage(const ofBaseHasTexture& hasTexture, const glm::vec2& size);
     void AddImage(const ofTexture& texture, const glm::vec2& size);
@@ -188,15 +187,15 @@ bool ofxImGui::AddParameter(ofParameter<ParameterType>& parameter)
 template<typename ParameterType>
 bool ofxImGui::AddText(ofParameter<ParameterType>& parameter, bool label)
 {
-    if (label)
-    {
-        ImGui::LabelText(parameter.getName().c_str(), ofToString(parameter.get()).c_str());
-    }
-    else
-    {
-        ImGui::Text(ofToString(parameter.get()).c_str());
-    }
-    return true;
+	if (label)
+	{
+		ImGui::LabelText(parameter.getName().c_str(), ofToString(parameter.get()).c_str());
+	}
+	else
+	{
+		ImGui::Text(ofToString(parameter.get()).c_str());
+	}
+	return true;
 }
 
 //--------------------------------------------------------------

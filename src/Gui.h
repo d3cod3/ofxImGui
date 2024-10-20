@@ -22,16 +22,13 @@ namespace ofxImGui
 		Gui();
 		~Gui();
 
-        void setup(BaseTheme* theme = nullptr, bool autoDraw = true, ImGuiConfigFlags customFlags_=ImGuiConfigFlags_None);
+		void setup(BaseTheme* theme = nullptr, bool autoDraw = true);
 		void exit();
 
 		void begin();
 		void end();
 
 		void draw();
-
-    void SetDefaultFont(int indexAtlasFont);
-    int addFont(const std::string & fontPath, float fontSize = 13.0f);
 
 		void setTheme(BaseTheme* theme);
 
@@ -55,11 +52,9 @@ namespace ofxImGui
         
 		float lastTime;
 		bool autoDraw;
-        bool isRenderingManualFrame = false;
 
 		BaseTheme* theme;
 
 		std::vector<ofTexture*> loadedTextures;
-		ImGuiContext* context;
 	};
 }

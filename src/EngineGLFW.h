@@ -30,10 +30,14 @@ namespace ofxImGui
 
 		bool createFontsTexture();
 
-		void onKeyReleased(ofKeyEventArgs& event) override;
-		void onKeyPressed(ofKeyEventArgs& event) override;
-		void onMousePressed(ofMouseEventArgs& event) override;
-		void onMouseReleased(ofMouseEventArgs& event) override;
+        // Input events
+        void onKeyEvent(ofKeyEventArgs& event) override;
+
+        ImGuiKey keyCodeToImGuiKey(int keyCode);
+
+        // Mouse events
+        void onMousePressed(ofMouseEventArgs& event) override;
+        void onMouseReleased(ofMouseEventArgs& event) override;
 
 		// Custom 
 		static void programmableDrawData(ImDrawData * draw_data);

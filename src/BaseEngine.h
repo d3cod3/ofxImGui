@@ -3,6 +3,8 @@
 #include "ofEvents.h"
 #include "ofAppBaseWindow.h"
 
+#include "imgui.h"
+
 #define OFFSETOF(TYPE, ELEMENT) ((size_t)&(((TYPE *)0)->ELEMENT))
 
 namespace ofxImGui
@@ -28,14 +30,13 @@ namespace ofxImGui
 		virtual void onMousePressed(ofMouseEventArgs& event);
 		virtual void onMouseReleased(ofMouseEventArgs& event);
 		virtual void onMouseScrolled(ofMouseEventArgs& event);
-		virtual void onKeyPressed(ofKeyEventArgs& event);
-		virtual void onKeyReleased(ofKeyEventArgs& event) = 0;
+        virtual void onKeyEvent(ofKeyEventArgs& event);
 		virtual void onWindowResized(ofResizeEventArgs& window);
 
 		virtual GLuint loadTextureImage2D(unsigned char * pixels, int width, int height);
 
-		static const char* getClipboardString(void * userData);
-		static void setClipboardString(void * userData, const char * text);
+        static const char* getClipboardString(ImGuiContext*);
+        static void setClipboardString(ImGuiContext*, const char* text);
 
 		static int g_ShaderHandle;
 		static int g_VertHandle;
@@ -51,11 +52,13 @@ namespace ofxImGui
 		static unsigned int g_VaoHandle;
 		static unsigned int g_ElementsHandle;
 
-        static std::string g_ClipboardText;
+		static std::string g_ClipboardText;
 
 		bool mousePressed[5] = { false };
 
 	protected:
+        static ImGuiKey oFKeyToImGuiKey(int key);
+
 		bool isSetup;
 	};
 }
