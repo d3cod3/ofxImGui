@@ -173,9 +173,6 @@ ImGuiKey BaseEngine::oFKeyToImGuiKey(int key)
 //--------------------------------------------------------------
 void BaseEngine::onKeyEvent(ofKeyEventArgs& event)
 {
-    // This one is a little too ahrd to port, let's behave like EngineOpenFrameworks
-    // ImGui_ImplGlfw_KeyCallback((GLFWwindow*)ofGetWindowPtr()->getWindowContext(), ...);
-
     int key = event.keycode; // Todo: this seems to be window specific ?
     ImGuiIO& io = ImGui::GetIO();
 
@@ -187,16 +184,11 @@ void BaseEngine::onKeyEvent(ofKeyEventArgs& event)
 
     // Since 1.87 : Key events
     ImGuiKey imKey = oFKeyToImGuiKey(event.key);
-    //ImGuiKey imgui_key = ImGui_ImplGlfw_KeyToImGuiKey(keycode); // Previous code
 
-    // Fallback by guessing the imguikey from the typed character
-    // Note: could create weird behaviour on some special keyboards ?
-    // If so: It could be disabled, it doesn't prevent from using ImGui
-    // This helps registering key up/down state, which is rarely used in imgui widgets.
-    //		if(imKey == ImGuiKey_None){
-    //			// Note: codepoint corresponds to the typed character
-    //			imKey = keyCodeToImGuiKey( event.codepoint );
-    //		}
+    if(imKey == ImGuiKey_None){
+        // Note: codepoint corresponds to the typed character
+        //imKey = keyCodeToImGuiKey( event.codepoint );
+    }
 
     io.AddKeyEvent(imKey, event.type == ofKeyEventArgs::Pressed );
 
@@ -204,6 +196,10 @@ void BaseEngine::onKeyEvent(ofKeyEventArgs& event)
     // It causes an assert/crash in imgui v1.89.3 when releasing ALT+CMD simultanously (osx+backend_of_native), when IMGUI_DISABLE_OBSOLETE_KEYIO is not defined.
     // As we disabled it, we can support old user code again.
     io.SetKeyEventNativeData(imKey, key, event.scancode); // To support legacy indexing (<1.87 user code)
+
+    if(event.type == ofKeyEventArgs::Pressed){
+        io.AddInputCharacter((unsigned short)event.codepoint);
+    }
 }
 
 //--------------------------------------------------------------
@@ -240,8 +236,7 @@ void BaseEngine::onMouseReleased(ofMouseEventArgs& event)
 void BaseEngine::onMouseScrolled(ofMouseEventArgs& event)
 {
     ImGuiIO& io = ImGui::GetIO();
-    io.MouseWheelH = event.scrollX;
-    io.MouseWheel = event.scrollY;
+    io.AddMouseWheelEvent( static_cast<float>(event.scrollX), static_cast<float>(event.scrollY) );
 }
 
 //--------------------------------------------------------------

@@ -105,6 +105,9 @@ void EngineGLFW::onMousePressed(ofMouseEventArgs& event)
         remapToGLFWConvention(button);
         mousePressed[button] = true;
     }
+
+    ImGuiIO& io = ImGui::GetIO();
+    io.AddMouseButtonEvent(event.button, event.type == ofMouseEventArgs::Pressed);
 }
 
 //--------------------------------------------------------------
@@ -116,21 +119,21 @@ void EngineGLFW::onMouseReleased(ofMouseEventArgs& event)
         remapToGLFWConvention(button);
         mousePressed[button] = false;
     }
+
+    ImGuiIO& io = ImGui::GetIO();
+    io.AddMouseButtonEvent(event.button, event.type == ofMouseEventArgs::Released);
 }
 //--------------------------------------------------------------
 void EngineGLFW::onKeyEvent(ofKeyEventArgs& event){
-
-    // This one is a little too ahrd to port, let's behave like EngineOpenFrameworks
-    // ImGui_ImplGlfw_KeyCallback((GLFWwindow*)ofGetWindowPtr()->getWindowContext(), ...);
 
     int key = event.keycode; // Todo: this seems to be window specific ?
     ImGuiIO& io = ImGui::GetIO();
 
     // Set key modifiers (ensures they are set on time, fixes kb shortcuts)
-    io.AddKeyEvent(ImGuiMod_Ctrl,  event.hasModifier(OF_KEY_CONTROL));
+    /*io.AddKeyEvent(ImGuiMod_Ctrl,  event.hasModifier(OF_KEY_CONTROL));
     io.AddKeyEvent(ImGuiMod_Shift, event.hasModifier(OF_KEY_SHIFT));
     io.AddKeyEvent(ImGuiMod_Alt,   event.hasModifier(OF_KEY_ALT));
-    io.AddKeyEvent(ImGuiMod_Super, event.hasModifier(OF_KEY_SUPER));
+    io.AddKeyEvent(ImGuiMod_Super, event.hasModifier(OF_KEY_SUPER));*/
 
     // Since 1.87 : Key events
     ImGuiKey imKey = oFKeyToImGuiKey(event.key);
@@ -150,8 +153,6 @@ void EngineGLFW::onKeyEvent(ofKeyEventArgs& event){
     if(event.type == ofKeyEventArgs::Pressed){
         io.AddInputCharacter((unsigned short)event.codepoint);
     }
-
-
 
 }
 
