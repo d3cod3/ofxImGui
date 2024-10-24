@@ -150,7 +150,7 @@ void EngineGLFW::onKeyEvent(ofKeyEventArgs& event){
     // As we disabled it, we can support old user code again.
     io.SetKeyEventNativeData(imKey, key, event.scancode); // To support legacy indexing (<1.87 user code)
 
-    if(event.type == ofKeyEventArgs::Pressed && !event.hasModifier(OF_KEY_CONTROL)){
+    if(event.type == ofKeyEventArgs::Pressed && !event.hasModifier(OF_KEY_CONTROL) && !event.hasModifier(OF_KEY_SUPER)){
         io.AddInputCharacter((unsigned short)event.codepoint);
     }
 
