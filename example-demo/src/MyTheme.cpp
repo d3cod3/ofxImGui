@@ -64,6 +64,6 @@ void MyTheme::setup()
     style->Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(getRandomColor(), 1.00f);
     style->Colors[ImGuiCol_TextSelectedBg] = ImVec4(getRandomColor(), 0.43f);
     style->Colors[ImGuiCol_PopupBg] = ImVec4(getRandomColor(), 0.92f);
-    style->Colors[ImGuiCol_ModalWindowDarkening] = ImVec4(getRandomColor(), 0.73f);
+    //style->Colors[ImGuiCol_ModalWindowDarkening] = ImVec4(getRandomColor(), 0.73f);
     
 }

@@ -6,13 +6,19 @@ void ofApp::setup()
     ofSetLogLevel(OF_LOG_VERBOSE);
     
     //required call
-    gui.setup();
+    // ImGui
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    io.IniFilename = nullptr;
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    io.MouseDrawCursor = false;
+    gui.setup(nullptr, false);
     
     ImGui::GetIO().MouseDrawCursor = false;
     //backgroundColor is stored as an ImVec4 type but can handle ofColor
     backgroundColor = ofColor(114, 144, 154);
     show_test_window = true;
-    show_another_window = false;
+    show_another_window = true;
     floatValue = 0.0f;
     
     //load your own ofImage
@@ -57,103 +63,42 @@ void ofApp::update(){
 void ofApp::draw(){
     
     //backgroundColor is stored as an ImVec4 type but is converted to ofColor automatically
-    
     ofSetBackgroundColor(backgroundColor);
+
+    gui.begin();
+
+    {
     
     //required to call this at beginning
-    gui.begin();
+    // Fullscreen transparent DockSpace
+    static bool showDockspace = true;
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoBackground;
+    ImGuiViewport* viewport = ImGui::GetMainViewport();
+    ImGui::SetNextWindowPos(viewport->WorkPos);
+    ImGui::SetNextWindowSize(ImVec2(viewport->WorkSize.x,viewport->WorkSize.y-20));
+    ImGui::SetNextWindowViewport(viewport->ID);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+    window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+
+    ImGui::Begin("DockSpace", &showDockspace, window_flags);
+    ImGui::PopStyleVar(3);
+
+    ImGui::SetNextWindowBgAlpha(0.0f);
+    ImGui::DockSpace(ImGui::GetID("MosaicDockSpace"), ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None|ImGuiDockNodeFlags_PassthruCentralNode);
     
     //In between gui.begin() and gui.end() you can use ImGui as you would anywhere else
     
-    // 1. Show a simple window
-    {
-        ImGui::Text("Hello, world!");
-        ImGui::SliderFloat("Float", &floatValue, 0.0f, 1.0f);
-        
-        //this will change the app background color
-        ImGui::ColorEdit3("Background Color", (float*)&backgroundColor);
-        if(ImGui::Button("Demo Window"))
-        {
-            show_test_window = !show_test_window;
-        }
-        
-        if (ImGui::Button("Another Window"))
-        {
-            //bitwise OR
-            show_another_window ^= 1;
-            
-        }
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        
-        if (ImGui::Button("CUSTOM THEME"))
-        {
-            gui.setTheme(new MyTheme());
-            
-        }ImGui::SameLine();
-        
-        if (ImGui::Button("DEFAULT THEME"))
-        {
-            gui.setTheme(new ofxImGui::DefaultTheme());
-            
-        }
-        
-    }
-    // 2. Show another window, this time using an explicit ImGui::Begin and ImGui::End
-    if (show_another_window)
-    {
-        //note: ofVec2f and ImVec2f are interchangeable
-        ImGui::SetNextWindowSize(ofVec2f(200,100), ImGuiCond_FirstUseEver);
-        ImGui::Begin("Another Window", &show_another_window);
-        ImGui::Text("Hello");
-        ImGui::End();
-    }
-    
-    // 3. Show the ImGui test window. Most of the sample code is in ImGui::ShowDemoWindow()
-    if (show_test_window)
-    {
-        ImGui::SetNextWindowPos(ofVec2f(650, 20), ImGuiCond_FirstUseEver);
+
         ImGui::ShowDemoWindow(&show_test_window);
     }
-    
-    if(!fileNames.empty())
-    {
-        
-        //ofxImGui::VectorListBox allows for the use of a vector<string> as a data source
-        static int currentListBoxIndex = 0;
-        if(ofxImGui::VectorListBox("VectorListBox", &currentListBoxIndex, fileNames))
-        {
-            ofLog() << " VectorListBox FILE PATH: "  << files[currentListBoxIndex].getAbsolutePath();
-        }
-        
-        //ofxImGui::VectorCombo allows for the use of a vector<string> as a data source
-        static int currentFileIndex = 0;
-        if(ofxImGui::VectorCombo("VectorCombo", &currentFileIndex, fileNames))
-        {
-            ofLog() << "VectorCombo FILE PATH: "  << files[currentFileIndex].getAbsolutePath();
-        }
-    }
 
-    
-    
-    //GetImTextureID is a static function define in Helpers.h that accepts ofTexture, ofImage, or GLuint
-    if(ImGui::ImageButton(GetImTextureID(imageButtonID), ImVec2(200, 200)))
-    {
-           ofLog() << "PRESSED";
-    }
-    
-    //or do it manually
-    ImGui::Image((ImTextureID)(uintptr_t)textureSourceID, ImVec2(200, 200));
+    ImGui::End();
 
-    ImGui::Image(GetImTextureID(pixelsButtonID), ImVec2(200, 200));
-
-   
-    
-    
-
-    
-    //required to call this at end
     gui.end();
-    
+
+    gui.draw();
 }
 
 //--------------------------------------------------------------
